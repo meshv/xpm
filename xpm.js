@@ -44,32 +44,34 @@ if(!process.argv[2])
                                     process.exit(0)
                                 }
                                 console.log(colors.green("Checking For Package ") + "metadata.json")
-                                if(sys.existsSync(process.argv[3].toLowerCase() + "/metadata.json"))
-                                {
-                                    var metadata = require(process.argv[3].toLowerCase() + "/metadata.json")
-                                    if(metadata['location'])
+                                setTimeout(function() {
+                                    if(sys.existsSync('./' + process.argv[3].toLowerCase() + '/metadata.json'))
                                     {
-                                        ncp(process.argv[3].toLowerCase() + "/", metadata['location'], err => {
-                                            if(err)
-                                            {
-                                                console.log(colors.red("Error: ") + err)
-                                                process.exit(0)
-                                            }
-                                            console.log(colors.green("Finished Installing ") + process.argv[3].toLowerCase())
-                                            sys.writeFile(__dirname + "/instances.db", process.argv[3].toLowerCase() + "|" + metadata['location'], err => {
+                                        var metadata = require('./' + process.argv[3].toLowerCase() + "/metadata.json")
+                                        if(metadata['location'])
+                                        {
+                                            ncp("./" + process.argv[3].toLowerCase() + "/", metadata['location'], err => {
                                                 if(err)
                                                 {
                                                     console.log(colors.red("Error: ") + err)
                                                     process.exit(0)
                                                 }
+                                                console.log(colors.green("Finished Installing ") + process.argv[3].toLowerCase())
+                                                sys.writeFile(__dirname + "/instances.db", process.argv[3].toLowerCase() + ":" + metadata['location'], err => {
+                                                    if(err)
+                                                    {
+                                                        console.log(colors.red("Error: ") + err)
+                                                        process.exit(0)
+                                                    }
+                                                })
                                             })
-                                        })
+                                        } else {
+                                            console.log(colors.yellow("Warning: ") + "No Location Set, Keeping Package In Default Location")
+                                        }
                                     } else {
-                                        console.log(colors.yellow("Warning: ") + "No Location Set, Keeping Package In Default Location")
+                                        console.log(colors.red("Error: ") + "Package Metadata File Missing")
                                     }
-                                } else {
-                                    console.log(colors.red("Error: ") + "Package Metadata File Missing")
-                                }
+                                }, 1500)
                             })
                         })
                     })
