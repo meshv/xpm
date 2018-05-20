@@ -5,6 +5,7 @@ var progress = require('progress')
     zip = require('unzip')
     sys = require('fs')
     ncp = require('ncp').ncp
+    rm = require('rimraf')
 
 if(!process.argv[2])
 {
@@ -63,6 +64,13 @@ if(!process.argv[2])
                                                         console.log(colors.red("Error: ") + err)
                                                         process.exit(0)
                                                     }
+                                                    rm('test/', err => {
+                                                        if(err)
+                                                        {
+                                                            console.log(colors.red("Error: ") + 'Can Not Find Source Directory')
+                                                            process.exit(0)
+                                                        }
+                                                    })
                                                 })
                                             })
                                         } else {
@@ -81,6 +89,56 @@ if(!process.argv[2])
             }
             break
         case "remove":
+            if(process.argv[3])
+            {
+                var location = ""
+                sys.stat(__dirname + '/instances.db', (err, stat) => {
+                    if(err)
+                    {
+                        console.log(colors.red("Error: ") + err)
+                        process.exit(0)
+                    }
+                    sys.readFile(__dirname + '/instances.db', 'utf-8', (err, data) => {
+                        var lines = data.split('\n')
+                        for(var i = 0; i < lines.length; i++)
+                        {
+                            var line = lines[i].split(":")
+                            if(line[0] == process.argv[3].toLowerCase())
+                            {
+                                location = line[1]
+                            }
+                        }
+                        if(location != "")
+                        {
+                            rm(location, err => {
+                                if(err)
+                                {
+                                    console.log(colors.red('Error: ') + err)
+                                    process.exit(0)
+                                }
+                                for(var i = 0; i < lines.length; i++)
+                                {
+                                    if(lines[i].indexOf(process.argv[3].toLowerCase()) > -1)
+                                    {
+                                        lines[i] = ""
+                                        sys.writeFile(__dirname + '/instances.db', lines.join('\n'), err => {
+                                            if(err)
+                                            {
+                                                console.log(colors.red('Error: ') + 'Failed To Update Instances File')
+                                            }
+                                        })
+                                    }
+                                }
+                                console.log(colors.green('Package Removed ') + process.argv[3].toLowerCase())
+                            })
+                        } else {
+                            console.log(colors.red('Error: ') + 'Package Not Installed')
+                        }
+                    })
+                })
+            } else {
+                console.log(colors.red('Error: ') + 'No Package Given')
+            }
             break
         default:
             console.log(colors.red("Error: ") + "Invalid Command")
