@@ -75,6 +75,20 @@ if(!process.argv[2])
                                             })
                                         } else {
                                             console.log(colors.yellow("Warning: ") + "No Location Set, Keeping Package In Default Location")
+                                            sys.writeFile(__dirname + "/instances.db", process.argv[3].toLowerCase() + ":" + __dirname + '/' + process.argv[3].toLowerCase(), err => {
+                                                if(err)
+                                                {
+                                                    console.log(colors.red("Error: ") + err)
+                                                    process.exit(0)
+                                                }
+                                                rm('test/', err => {
+                                                    if(err)
+                                                    {
+                                                        console.log(colors.red("Error: ") + 'Can Not Find Source Directory')
+                                                        process.exit(0)
+                                                    }
+                                                })
+                                            })
                                         }
                                     } else {
                                         console.log(colors.red("Error: ") + "Package Metadata File Missing")
