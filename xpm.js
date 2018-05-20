@@ -129,7 +129,7 @@ if(!process.argv[2])
                                         })
                                     }
                                 }
-                                console.log(colors.green('Package Removed ') + process.argv[3].toLowerCase())
+                                console.log(colors.green('Package ') + process.argv[3].toLowerCase() + colors.green(' Removed'))
                             })
                         } else {
                             console.log(colors.red('Error: ') + 'Package Not Installed')
