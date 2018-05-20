@@ -16,7 +16,19 @@ if(!process.argv[2])
         case "install":
             if(process.argv[3] && Object.keys(repos).indexOf(process.argv[3].toLowerCase()) > -1)
             {
-                var url = repos[process.argv[3].toLowerCase()]
+                var url = ""
+                if(process.argv[4])
+                {
+                    if(Object.keys(repos[process.argv[3].toLowerCase()]).indexOf(process.argv[4]) > -1)
+                    {
+                        url = repos[process.argv[3].toLowerCase()][Object.keys(repos[process.argv[3]])[Object.keys(repos[process.argv[3]]).indexOf(process.argv[4])]]
+                    } else {
+                        console.log(colors.red('Error: ') + 'Package Version Does Not Exist')
+                        process.exit(0)
+                    }
+                } else {
+                    url = repos[process.argv[3].toLowerCase()][Object.keys(repos[process.argv[3].toLowerCase()])[0]]
+                }
                 var pkg = sys.createWriteStream(process.argv[3].toLowerCase() + ".pkg")
                 console.log(colors.green("Downloading ") + process.argv[3].toLowerCase() + colors.green(" from ") + url)
                 https.get(url, res => {
