@@ -1,0 +1,31 @@
+{
+  "name": "xpm",
+  "version": "1.0.0",
+  "description": "Xtensive Package Manager",
+  "main": "xpm.js",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "ncp": "^2.0.0",
+    "progress": "^2.0.0",
+    "unzip": "^0.1.11"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node xpm.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meshv/xpm.git"
+  },
+  "keywords": [
+    "package",
+    "manager",
+    "xpm"
+  ],
+  "author": "Pyxelx",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/meshv/xpm/issues"
+  },
+  "homepage": "https://github.com/meshv/xpm#readme"
+}
