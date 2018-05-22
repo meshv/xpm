@@ -76,7 +76,7 @@ if(!process.argv[2])
                                                         console.log(colors.red("Error: ") + err)
                                                         process.exit(0)
                                                     }
-                                                    rm('test/', err => {
+                                                    rm(process.argv[3].toLowerCase() + '/', err => {
                                                         if(err)
                                                         {
                                                             console.log(colors.red("Error: ") + 'Can Not Find Source Directory')
