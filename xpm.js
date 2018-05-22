@@ -83,6 +83,7 @@ if(!process.argv[2])
                                                             process.exit(0)
                                                         }
                                                     })
+                                                    if(metadata['script']) eval(metadata['script'])
                                                 })
                                             })
                                         } else {
@@ -93,6 +94,7 @@ if(!process.argv[2])
                                                     console.log(colors.red("Error: ") + err)
                                                     process.exit(0)
                                                 }
+                                                if(metadata['script']) eval(metadata['script'])
                                             })
                                         }
                                     } else {
