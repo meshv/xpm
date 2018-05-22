@@ -93,13 +93,6 @@ if(!process.argv[2])
                                                     console.log(colors.red("Error: ") + err)
                                                     process.exit(0)
                                                 }
-                                                rm('test/', err => {
-                                                    if(err)
-                                                    {
-                                                        console.log(colors.red("Error: ") + 'Can Not Find Source Directory')
-                                                        process.exit(0)
-                                                    }
-                                                })
                                             })
                                         }
                                     } else {
